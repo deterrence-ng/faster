@@ -24,7 +24,7 @@ dependencies = [
     "python-multipart>=0.0.20",
     "qrcode>=8.2",
     "sendgrid>=6.12.4",
-    "setuptools>=80.9.0",
+    "setuptools<81",
     "sqlalchemy>=2.0.42",
     "textblob>=0.19.0",
     "twilio>=9.7.0",

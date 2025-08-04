@@ -24,7 +24,6 @@ from asyncer import asyncify
 
 from app.config.config import settings
 
-
 def gen_email(mail_str: str = "") -> str:
     mail_str = mail_str or gen_random_str()
     mail_str = mail_str.replace("_", ".").replace("-", ".")
