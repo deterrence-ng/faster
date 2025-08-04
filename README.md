@@ -1,0 +1,1 @@
+# Faster - A FastAPI Template
