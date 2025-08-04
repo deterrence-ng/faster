@@ -75,6 +75,12 @@ async def create_machine_user(
     )
 
 
+async def generate_machine_user_keys(
+    cu: CrudUtil,
+):
+    pass
+
+
 async def activate_user(
     cu: CrudUtil,
     uuid: str,
@@ -113,6 +119,15 @@ async def get_user_by_email(cu: CrudUtil, email: str) -> models.User:
     )
 
     return user
+
+
+async def get_user_validation_key(cu: CrudUtil, uuid: str) -> str:
+    user: models.User = await get_user_by_uuid(cu, uuid)
+
+    if not user.validation_key:
+        raise HTTPException(status_code=404, detail="User validation key not found")
+
+    return user.validation_key
 
 
 async def get_user_by_phone(cu: CrudUtil, phone: str) -> models.User:

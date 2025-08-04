@@ -7,7 +7,7 @@
 
 
 import re
-from secrets import randbits, token_urlsafe
+from secrets import randbits, token_hex, token_urlsafe
 from datetime import datetime, timezone, timedelta, date
 from random import choice as choose
 from typing import Any
@@ -28,6 +28,10 @@ def gen_email(mail_str: str = "") -> str:
     mail_str = mail_str or gen_random_str()
     mail_str = mail_str.replace("_", ".").replace("-", ".")
     return f"{mail_str}@diacyber.com"
+
+
+def gen_random_secret_key() -> str:
+    return token_hex()
 
 
 def gen_random_password() -> str:

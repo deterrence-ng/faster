@@ -89,6 +89,8 @@ async def users_login(
         user_data.password,
     )
 
+    validation_key: str = await cruds.get_user_validation_key(cu, user.uuid)
+
     token_data_to_encode = {
         "data": {
             "uuid": user.uuid,
@@ -96,6 +98,7 @@ async def users_login(
             "firstname": user.firstname,
             "lastname": user.lastname,
             "user_group": user.groups[0].name if user.groups else None,
+            "validation_key": validation_key,
         }
     }
 
@@ -123,6 +126,8 @@ async def admin_login(
         user_data.password,
     )
 
+    validation_key: str = await cruds.get_user_validation_key(cu, user.uuid)
+
     token_data_to_encode = {
         "data": {
             "uuid": user.uuid,
@@ -130,6 +135,7 @@ async def admin_login(
             "firstname": user.firstname,
             "lastname": user.lastname,
             "user_group": user.groups[0].name if user.groups else None,
+            "validation_key": validation_key,
         }
     }
 
@@ -157,6 +163,8 @@ async def users_mobile_login(
         user_data.password,
     )
 
+    validation_key: str = await cruds.get_user_validation_key(cu, user.uuid)
+
     token_data_to_encode = {
         "data": {
             "uuid": user.uuid,
@@ -164,6 +172,7 @@ async def users_mobile_login(
             "firstname": user.firstname,
             "lastname": user.lastname,
             "user_group": user.groups[0].name if user.groups else None,
+            "validation_key": validation_key,
         }
     }
 
@@ -230,6 +239,7 @@ async def change_own_password(
 )
 async def generate_machine_token(
     *,
+    cu: CrudUtil = Depends(CrudUtil),
     user: schemas.UserSchema = Depends(deps.get_super_user),
 ) -> schemas.Token:
     """
@@ -237,6 +247,8 @@ async def generate_machine_token(
     This token has a very long expiry (100 years) and should be used
     only for secure system-to-system integrations.
     """
+    validation_key: str = await cruds.get_user_validation_key(cu, user.uuid)
+
     token_data_to_encode = {
         "data": {
             "uuid": user.uuid,
@@ -246,6 +258,7 @@ async def generate_machine_token(
             "user_group": user.groups[0].name if user.groups else None,
             "is_machine": True,
             "created_at": datetime.now().isoformat(),
+            "validation_key": validation_key,
         }
     }
 

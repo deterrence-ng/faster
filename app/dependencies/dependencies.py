@@ -49,6 +49,10 @@ async def get_current_user(
         await users_cruds.get_user_by_email(cu, payload["data"]["email"])
     )
 
+    db_validation_key: str = await users_cruds.get_user_validation_key(cu, user.uuid)
+    if db_validation_key != payload["data"].get("validation_key"):
+        raise HTTPException(status_code=401, detail="Invalid validation key")
+
     if not user.is_active:
         raise HTTPException(status_code=400, detail="Inactive user")
 

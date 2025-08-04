@@ -5,7 +5,9 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.access_control.models import Group
 from app.config.database import Base
 from app.mixins.columns import BaseMixin
+import ulid
 
+from app.utils.misc import gen_random_secret_key
 
 user_group = Table(
     "user_group",
@@ -55,6 +57,12 @@ class User(BaseMixin, Base):
     )
     is_profile_complete: Mapped[bool] = mapped_column(
         Boolean, default=False, server_default="0", nullable=False
+    )
+    access_key: Mapped[str | None] = mapped_column(
+        String(1024), nullable=True, default=ulid.ulid
+    )
+    validation_key: Mapped[str | None] = mapped_column(
+        String(1024), nullable=True, default=gen_random_secret_key
     )
 
     groups: Mapped[list["Group"]] = relationship(
