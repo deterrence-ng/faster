@@ -1,0 +1,31 @@
+[project]
+name = "faster"
+version = "0.1.0"
+description = "FastAPI Bootstrap Template"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "alembic>=1.16.4",
+    "asyncer>=0.0.8",
+    "asyncpg>=0.30.0",
+    "bcrypt>=4.3.0",
+    "email-validator>=2.2.0",
+    "fastapi>=0.116.1",
+    "google-cloud-storage>=3.2.0",
+    "httpx>=0.28.1",
+    "inflect>=7.5.0",
+    "passlib>=1.7.4",
+    "pillow>=11.3.0",
+    "psycopg2-binary>=2.9.10",
+    "pydantic>=2.11.7",
+    "pydantic-settings>=2.10.1",
+    "pyjwt>=2.10.1",
+    "python-multipart>=0.0.20",
+    "sendgrid>=6.12.4",
+    "setuptools>=80.9.0",
+    "sqlalchemy>=2.0.42",
+    "textblob>=0.19.0",
+    "twilio>=9.7.0",
+    "ulid>=1.1",
+    "uvicorn>=0.35.0",
+]

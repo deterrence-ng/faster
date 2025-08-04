@@ -1,0 +1,6 @@
+{   
+    "strict": [
+        "app/target",
+    ],
+    "analyzeUnannotatedFunctions": true,
+}
