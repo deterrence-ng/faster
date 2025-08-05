@@ -190,6 +190,10 @@ class Token(BaseModel):
     token_type: str
     user_group: str | None = ""
     permissions: list[str] | None = None
+    
+
+class TokenSchema(BaseModel):
+    access_token: str
 
 
 class Login(BaseModel):

@@ -14,9 +14,12 @@ from app.utils.misc import (
     async_verify_email_otp,
     async_verify_phone_otp,
     gen_random_password,
+    gen_random_secret_key,
+    gen_random_phone,
+    gen_random_email
 )
 from app.utils.sms import send_account_creation_sms
-from app.utils.user import get_access_token, get_password_hash, verify_password
+from app.utils.user import get_access_token, get_password_hash, verify_password, create_access_token
 
 
 async def create_user(
@@ -596,3 +599,65 @@ async def is_valid_user(
         )
 
     return True
+
+
+async def revoke_use_validation(
+    cu: CrudUtil,
+    uuid: str
+) -> schemas.UserSchema:
+    # get the db user
+    db_user: models.User | None = await cu.get_model_or_404(
+        models.User, {"uuid": uuid}
+    )
+    
+    if not db_user:
+        raise HTTPException(status_code=404, detail="No user found")
+        
+    db_user.validation_key = gen_random_secret_key()
+
+    # Use await for async database operations stHqOfOGejOyaWIvA
+    await cu.db.commit()
+    await cu.db.refresh(db_user)
+    
+    return schemas.UserSchema.validate(db_user)
+
+
+async def create_machine_user_jwt(cu: CrudUtil) -> schemas.TokenSchema:
+    # Create the machine user data
+    to_create = schemas.UserIn(
+        email=gen_random_email(),
+        firstname="MACHINE",
+        lastname="USER", 
+        middlename="SYSTEM",
+        phone=gen_random_phone(),
+        password=gen_random_password(),
+    )
+    
+    print(to_create)
+
+    # Create the user in the database
+    user = await create_user(
+        cu,
+        user_data=to_create,
+        autocommit=True,
+        is_admin=True,
+        can_login=True,
+    )
+
+    # Prepare token data
+    token_data_to_encode = {
+        "data": {
+            "uuid": str(user.uuid),
+            "email": user.email,
+            "firstname": user.firstname,
+            "lastname": user.lastname,
+        }
+    }
+
+    # Create the access token
+    access_token = create_access_token(token_data_to_encode)
+
+    # Return the token schema
+    return schemas.TokenSchema(
+        access_token=access_token
+    )

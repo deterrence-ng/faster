@@ -398,3 +398,26 @@ async def remove_group_from_user(
     await cu.db.commit()
     await cu.db.refresh(user)
     return schemas.UserSchema.model_validate(user)
+
+
+@users_router.post(
+    "/{uuid}/revoke/validation-key",
+    dependencies=[Depends(deps.HasPermission(["admin:update"]))]
+)
+async def revoke_use_validation(
+    *,
+    cu: CrudUtil = Depends(CrudUtil),
+    uuid: str
+) -> schemas.UserSchema:
+    return await cruds.revoke_use_validation(cu, uuid)
+
+
+@users_router.post(
+    "/create-machine-user",
+    dependencies=[Depends(deps.HasPermission(['machine:create']))]
+)
+async def create_machine_user(
+    *,
+    cu: CrudUtil = Depends(CrudUtil)
+) -> schemas.TokenSchema:
+    return await cruds.create_machine_user_jwt(cu)
