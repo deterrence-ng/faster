@@ -84,7 +84,7 @@ class Settings(BaseSettings):
     # cloud
     cloud_bucket_name: str
     cloud_storage_url: str
-    GOOGLE_APPLICATION_CREDENTIALS: str
+    # GOOGLE_APPLICATION_CREDENTIALS: str
 
     # cors
     cors_origins: list[str] = []

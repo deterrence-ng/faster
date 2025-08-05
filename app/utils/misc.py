@@ -51,6 +51,13 @@ def gen_random_name() -> str:
     return f"UNALLOCATED-{gen_random_number(8)}"
 
 
+def gen_random_email() -> str:
+    """Generate a random email address starting with 'machine'"""
+    suffix = f"{pwd.genphrase(6)}_{gen_random_number(4)}"  # type: ignore
+    domain = f"{pwd.genphrase(5)}.com"  # type: ignore
+    return f"machine{suffix}@{domain}".lower()
+
+
 def gen_registration_number() -> str:
     return f"UNAVAILABLE-{gen_random_number(8)}"
 
@@ -91,11 +98,11 @@ def gen_random_number(bits: int = 16) -> int:
 
 def gen_random_phone() -> str:
     phone = f"{randbits(37)}"
-    if len(phone) < 11:
-        phone = f"{phone}{'1' * (11 - len(phone))}"
-    if len(phone) > 11:
-        phone = f"{phone[:11]}"
-    return f"4134{phone}"
+    if len(phone) < 8:
+        phone = f"{phone}{'1' * (8 - len(phone))}"
+    if len(phone) > 8:
+        phone = f"{phone[:8]}"
+    return f"081{phone}"
 
 
 def gen_mobile_otp(number: str) -> dict[Any, Any]:
