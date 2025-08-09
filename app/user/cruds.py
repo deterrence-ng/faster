@@ -651,6 +651,7 @@ async def create_machine_user_jwt(cu: CrudUtil) -> schemas.TokenSchema:
             "email": user.email,
             "firstname": user.firstname,
             "lastname": user.lastname,
+            "user_group": user.groups[0].name if user.groups else None,
         }
     }
 
